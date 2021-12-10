@@ -2,7 +2,9 @@ import { app } from "./app";
 require("dotenv").config();
 import { cronManager } from "./jobs/CronManager";
 
-app.listen(process.env.APP_PORT, () => {
-  console.log(`Listening on port ${process.env.APP_PORT}! 😎`);
+const PORT = process.env.APP_PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}! 😎`);
   cronManager.run();
 });
