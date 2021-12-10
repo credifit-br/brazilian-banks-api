@@ -29,6 +29,6 @@ const updateHolidays = async () => {
   console.log(`${getCurrentTimeFormated()}: Feriados atualizados com sucesso`);
 };
 
-export default cron.schedule("*/10 * * * * *", updateHolidays, {
+export default cron.schedule("0 2 * * *", updateHolidays, {
   scheduled: false,
 });
