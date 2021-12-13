@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import https from "https";
 import { Holiday } from "../../../entities/Holiday";
+import { logger } from "../../../utils/logger";
 import { IBankHolidaysProvider } from "../../IBankHolidaysProvider";
 
 interface FebrabanHoliday {
@@ -13,7 +14,14 @@ export class WebserviceFebrabanHolidaysProvider
   implements IBankHolidaysProvider
 {
   private baseUrl = "https://feriadosbancarios.febraban.org.br/Home";
-  private axiosInstance: AxiosInstance;
+  private axiosConf = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
+  };
 
   private months = [
     "janeiro",
@@ -30,26 +38,13 @@ export class WebserviceFebrabanHolidaysProvider
     "dezembro",
   ];
 
-  constructor() {
-    this.axiosInstance = axios.create({
-      headers: {
-        "Content-Type": "application/json",
-      },
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false,
-      }),
-    });
-  }
+  constructor() {}
 
   async getHolidays(year: string): Promise<Holiday[]> {
     const [bankHolidays, nationalHolidays] = await Promise.all([
       this.getBankHolidaysRequest(year),
       this.getNationalHolidaysRequest(year),
     ]);
-
-    if (this.hasError(bankHolidays) || this.hasError(nationalHolidays)) {
-      return [];
-    }
 
     const nationalHolidaysMaped = nationalHolidays.map((holiday) => {
       return this.mapFebrabanHolidaysToHolidaySettingType(
@@ -74,13 +69,21 @@ export class WebserviceFebrabanHolidaysProvider
   }
 
   private async getBankHolidaysRequest(year: string) {
-    const response = await this.axiosInstance.get(
-      this.buildBankHolidaysRequest(year)
-    );
+    try {
+      const response = await axios.get(
+        this.buildBankHolidaysRequest(year),
+        this.axiosConf
+      );
 
-    const bankHolidays: FebrabanHoliday[] = response.data;
+      this.validate(response.data);
 
-    return bankHolidays;
+      const bankHolidays: FebrabanHoliday[] = response.data;
+
+      return bankHolidays;
+    } catch (error) {
+      logger("Failed to load bank holidays from febraban");
+      return [];
+    }
   }
 
   private buildBankHolidaysRequest(year: string): string {
@@ -88,23 +91,33 @@ export class WebserviceFebrabanHolidaysProvider
   }
 
   private async getNationalHolidaysRequest(year: string) {
-    const response = await this.axiosInstance.get(
-      this.buildNationalHolidaysRequest(year)
-    );
+    try {
+      const response = await axios.get(
+        this.buildNationalHolidaysRequest(year),
+        this.axiosConf
+      );
 
-    const nationalHolidays: FebrabanHoliday[] = response.data;
+      this.validate(response.data);
 
-    return nationalHolidays;
+      const nationalHolidays: FebrabanHoliday[] = response.data;
+
+      return nationalHolidays;
+    } catch (error) {
+      logger("Failed to load national holidays from febraban");
+      return [];
+    }
   }
 
   private buildNationalHolidaysRequest(year: string): string {
     return `${this.baseUrl}/ObterFeriadosFederais?ano=${year}`;
   }
 
-  private hasError(holidays: FebrabanHoliday[]) {
-    const isArray = Array.isArray(holidays);
+  private validate(holidays: FebrabanHoliday[]) {
+    const isNotValid = !holidays || !Array.isArray(holidays);
 
-    return !holidays || !Array.isArray(holidays);
+    if (isNotValid) {
+      throw Error();
+    }
   }
 
   private mapFebrabanHolidaysToHolidaySettingType(

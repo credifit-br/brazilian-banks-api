@@ -1,3 +1,5 @@
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 import { getBankHolidaysController } from "../../../backend/useCases/GetBankHolidays";
 
 describe("Get Febraban holidays", () => {
@@ -33,15 +35,40 @@ describe("Get Febraban holidays", () => {
       expect(error).toBeNull();
     }
   });
-  test("Should when year doesnt has holiday", async () => {
+  test("Should return empty array when bad request", async () => {
     try {
       const year = "-2022";
 
       const holidays = await getBankHolidaysController.handle(year);
 
-      expect(holidays).toBeTruthy();
+      expect(holidays.length).toBe(0);
     } catch (error) {
       expect(error).toBeNull();
     }
+  });
+  describe("Mocked axios", () => {
+    let mock;
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+    });
+
+    test("Should return empty array when febraban request fail", async () => {
+      try {
+        const year = "2022";
+
+        mock
+          .onGet(
+            `https://feriadosbancarios.febraban.org.br/Home/ObterFeriadosFederaisF?ano=${year}`
+          )
+          .networkError();
+
+        const holidays = await getBankHolidaysController.handle(year);
+
+        expect(holidays).toBeTruthy();
+      } catch (error) {
+        console.log(error);
+        expect(error).toBeNull();
+      }
+    });
   });
 });
