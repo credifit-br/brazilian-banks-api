@@ -1,18 +1,18 @@
 import { Holiday } from "../../../entities/Holiday";
 import { IHolidayRepository } from "../../IHolidaysRepository";
-import { HolidaysData } from "./HolidaysData";
+import { holidaysData } from "./HolidaysData";
 
 export class LocalHolidaysRepository implements IHolidayRepository {
   constructor() {}
 
   async findByDate(date: string): Promise<Holiday> {
-    return HolidaysData.getInstance().get(date);
+    return holidaysData.get(date);
   }
 
   async saveHolidays(holidays: Holiday[]): Promise<void> {
     this.deleteHolidays(holidays);
 
-    HolidaysData.getInstance().insertList(holidays);
+    holidaysData.insertList(holidays);
   }
 
   private deleteHolidays(holidays: Holiday[]) {
@@ -20,7 +20,7 @@ export class LocalHolidaysRepository implements IHolidayRepository {
       const holidayIsPersisted = this.findByDate(holiday.date);
 
       if (holidayIsPersisted) {
-        HolidaysData.getInstance().delete(holiday.date);
+        holidaysData.delete(holiday.date);
       }
     });
   }

@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { GetHolidayUseCase } from "./GetHolidayUseCase";
 
 export class GetHolidayController {
   constructor(private getHolidayUseCase: GetHolidayUseCase) {}
 
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { data } = request.params;
+  async handle(request: NextApiRequest, response: NextApiResponse) {
+    const { data } = request.query;
 
     try {
       const holiday = await this.getHolidayUseCase.execute({
-        date: data,
+        date: String(data),
       });
 
       if (holiday) {
@@ -18,8 +18,9 @@ export class GetHolidayController {
 
       return response.status(404).json({ message: "Data não encontrada" });
     } catch (err) {
+      const error = err as any;
       return response.status(400).json({
-        message: err.message || "Unexpected error.",
+        message: error.message || "Unexpected error.",
       });
     }
   }

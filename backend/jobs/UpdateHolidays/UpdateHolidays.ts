@@ -14,7 +14,7 @@ const getCurrentAndNextYearHolidays = async () => {
   return currentAndNextYearHolidays;
 };
 
-const updateHolidays = async () => {
+export const updateHolidays = async () => {
   console.log(
     `${getCurrentTimeFormated()}: Atualizando a lista de emails utilizando os dados da febraban`
   );
@@ -29,6 +29,6 @@ const updateHolidays = async () => {
   console.log(`${getCurrentTimeFormated()}: Feriados atualizados com sucesso`);
 };
 
-export default cron.schedule("0 2 * * *", updateHolidays, {
+export default cron.schedule("0/15 * * * * *", updateHolidays, {
   scheduled: false,
 });

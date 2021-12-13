@@ -1,10 +1,8 @@
+import { holidaysRepository } from "../../factories/holidaysRepository";
 import { GetHolidayController } from "./GetHolidayController";
 import { GetHolidayUseCase } from "./GetHolidayUseCase";
-import { LocalHolidaysRepository } from "../../repositories/implementations/local/LocalHolidaysRepository";
 
-const localHolidaysRepository = new LocalHolidaysRepository();
-
-const getHolidayUseCase = new GetHolidayUseCase(localHolidaysRepository);
+const getHolidayUseCase = new GetHolidayUseCase(holidaysRepository);
 
 const getHolidayController = new GetHolidayController(getHolidayUseCase);
 

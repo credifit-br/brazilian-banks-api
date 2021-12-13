@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import https from "https";
-import { Holiday } from "entities/Holiday";
+import { Holiday } from "../../../entities/Holiday";
 import { IBankHolidaysProvider } from "../../IBankHolidaysProvider";
 
 interface FebrabanHoliday {
@@ -47,7 +47,7 @@ export class WebserviceFebrabanHolidaysProvider
       this.getNationalHolidaysRequest(year),
     ]);
 
-    if (this.hasError(bankHolidays) && this.hasError(nationalHolidays)) {
+    if (this.hasError(bankHolidays) || this.hasError(nationalHolidays)) {
       return [];
     }
 
@@ -102,6 +102,8 @@ export class WebserviceFebrabanHolidaysProvider
   }
 
   private hasError(holidays: FebrabanHoliday[]) {
+    const isArray = Array.isArray(holidays);
+
     return !holidays || !Array.isArray(holidays);
   }
 

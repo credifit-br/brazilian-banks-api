@@ -1,73 +1,73 @@
-export default [
+const defaultHolidaysList = [
   {
     name: "Dia Mundial da Paz",
     date: "2021-01-01",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Carnaval",
     date: "2021-02-15",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Carnaval",
     date: "2021-02-16",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Sexta-Feira da Paixão",
     date: "2021-04-02",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Tiradentes",
     date: "2021-04-21",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Dia do Trabalho",
     date: "2021-05-01",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Corpus Christi",
     date: "2021-06-03",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Independência do Brasil",
     date: "2021-09-07",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Nossa Srª Aparecida",
     date: "2021-10-12",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Finados",
     date: "2021-11-02",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Proclamação da República",
     date: "2021-11-15",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Natal",
     date: "2021-12-25",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Quarta-Feira de Cinzas",
     date: "2021-02-17",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Último dia útil do ano (Não haverá expediente ao público)",
     date: "2021-12-31",
-    type: "Nacional",
+    type: "Feriado Nacional",
   },
   {
     name: "Dia Mundial da Paz",
@@ -140,3 +140,5 @@ export default [
     type: "Recomendação Febraban",
   },
 ];
+
+export default defaultHolidaysList;

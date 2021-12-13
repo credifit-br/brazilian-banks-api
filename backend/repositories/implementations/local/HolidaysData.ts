@@ -1,9 +1,9 @@
 import { Holiday } from "../../../entities/Holiday";
+import { GlobalRef } from "../../../helpers/GlobalRef";
 import febrabanHolidays from "./holidays";
 
-export class HolidaysData {
+class HolidaysData {
   private holidays: Holiday[];
-  private static instance: HolidaysData;
 
   constructor() {
     this.holidays = febrabanHolidays;
@@ -32,12 +32,12 @@ export class HolidaysData {
   deleteAll() {
     this.holidays = [];
   }
-
-  public static getInstance(): HolidaysData {
-    if (!this.instance) {
-      this.instance = new HolidaysData();
-    }
-
-    return this.instance;
-  }
 }
+
+const databaseConn = new GlobalRef<HolidaysData>("myapp.database");
+
+if (!databaseConn.value) {
+  databaseConn.value = new HolidaysData();
+}
+
+export const holidaysData = databaseConn.value;
