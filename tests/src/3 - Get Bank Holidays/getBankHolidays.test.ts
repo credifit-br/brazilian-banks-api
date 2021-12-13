@@ -1,4 +1,4 @@
-import { getBankHolidaysController } from "../../../src/useCases/GetBankHolidays";
+import { getBankHolidaysController } from "../../../backend/useCases/GetBankHolidays";
 
 describe("Get Febraban holidays", () => {
   test("Should get 2021 holidays successfully", async () => {
@@ -41,7 +41,7 @@ describe("Get Febraban holidays", () => {
 
       expect(holidays).toBeTruthy();
     } catch (error) {
-      console.log(error);
+      expect(error).toBeNull();
     }
   });
 });
