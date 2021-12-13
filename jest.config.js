@@ -1,4 +1,5 @@
 module.exports = {
+  testTimeout: 30000,
   roots: ["<rootDir>/tests/src"],
   testEnvironment: "node",
   testMatch: [
@@ -13,5 +14,9 @@ module.exports = {
     "ts-jest": {
       // ts-jest configuration goes here
     },
+    SERVER_URL: "http://localhost:3000",
   },
+  globalSetup: "<rootDir>/tests/helpers/setup",
+  globalTeardown: "<rootDir>/tests/helpers/teardown",
+  testEnvironment: "node",
 };
