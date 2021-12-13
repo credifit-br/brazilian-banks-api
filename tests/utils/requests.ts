@@ -1,6 +1,6 @@
-import { app } from "../../src/app";
-import request from "supertest";
+import axios from "axios";
 
 export async function makeFeriadoRequest(date: string) {
-  return request(app).get(`/feriado/${date}`);
+  const requestUrl = `${global.SERVER_URL}/api/feriados/${date}`;
+  return axios.get(requestUrl);
 }

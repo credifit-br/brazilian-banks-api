@@ -1,22 +1,28 @@
-import { saveHolidaysController } from "../../../src/useCases/SaveHolidays";
-import { Holiday } from "../../../src/entities/Holiday";
+import { saveHolidaysController } from "../../../backend/useCases/SaveHolidays";
+import { getHolidayUseCase } from "../../../backend/useCases/GetHoliday";
+import { Holiday } from "../../../backend/entities/Holiday";
 import { makeFeriadoRequest } from "../../utils/requests";
+import { assertResponseError } from "../../utils/response";
 
 describe("Save Holidays", () => {
   async function makeRequestAndAssertResponse(
     date: string,
     expectedHoliday: Holiday
   ) {
-    const response = await makeFeriadoRequest(date);
-    const holiday: Holiday = response.body;
+    const holiday: Holiday = await getHolidayUseCase.execute({ date });
 
-    expect(response.statusCode).toBe(200);
     expect(holiday).toStrictEqual(expectedHoliday);
   }
   test("Should insert a list of holidays successfully", async () => {
     try {
-      const responseBeforeUpdate = await makeFeriadoRequest("2020-12-12");
-      expect(responseBeforeUpdate.statusCode).toBe(404);
+      try {
+        await makeFeriadoRequest("2020-12-12");
+      } catch (error) {
+        assertResponseError(error, {
+          status: 404,
+          message: "Data não encontrada",
+        });
+      }
 
       const newHolidaysList: Holiday[] = [
         {
@@ -33,11 +39,13 @@ describe("Save Holidays", () => {
 
       await saveHolidaysController.handle(newHolidaysList);
 
-      await makeRequestAndAssertResponse("2020-12-12", {
-        date: "2020-12-12",
-        name: "teste",
-        type: "Nacional",
-      });
+      try {
+        await makeRequestAndAssertResponse("2020-12-12", {
+          date: "2020-12-12",
+          name: "teste",
+          type: "Nacional",
+        });
+      } catch (error) {}
 
       await makeRequestAndAssertResponse("2020-12-14", {
         name: "teste",
@@ -45,6 +53,7 @@ describe("Save Holidays", () => {
         type: "Nacional",
       });
     } catch (error) {
+      console.log(error);
       expect(error).toBeNull();
     }
   });
@@ -53,7 +62,7 @@ describe("Save Holidays", () => {
       await makeRequestAndAssertResponse("2021-01-01", {
         date: "2021-01-01",
         name: "Dia Mundial da Paz",
-        type: "Nacional",
+        type: "Feriado Nacional",
       });
 
       const newHolidaysList: Holiday[] = [

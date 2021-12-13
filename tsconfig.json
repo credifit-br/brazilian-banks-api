@@ -1,13 +1,30 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "commonjs",
-    "target": "es2019",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "esModuleInterop": true,
-    "sourceMap": true,
-    "rootDirs": ["src", "tests"],
-    "baseUrl": "src"
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
   },
-  "include": ["src", "tests"],
-  "resolveJsonModule": true
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
