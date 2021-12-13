@@ -17,23 +17,9 @@ const Home: NextPage = () => {
           <a href="#">Brazilian Banks API!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
+          <a href="/docs" className={styles.card}>
             <h2>Documentação &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Exemplo &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
         </div>
       </main>

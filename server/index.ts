@@ -13,7 +13,7 @@ const port = process.env.APP_PORT || 3000;
 (async () => {
   try {
     if (!isTesting) {
-      // await updateHolidays();
+      await updateHolidays();
     }
 
     await app.prepare();

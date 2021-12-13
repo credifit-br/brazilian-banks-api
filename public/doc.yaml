@@ -1,0 +1,38 @@
+openapi: "3.0.0"
+info:
+  title: Brazilian Banks Api
+  version: 1.0.0
+paths:
+  "/api/feriados/:data":
+    get:
+      operationId: getFeriado
+      summary: Retorna um feriado bancário a partir de uma data
+      parameters:
+        - name: data
+          in: path
+          required: true
+          description: Data do feriado no no formato ISO 8601 YYYY-MM-DD
+          schema:
+            type: string
+      responses:
+        "200":
+          description: |-
+            A data informada é um feriado bancário
+          content:
+            application/json:
+              examples:
+                foo:
+                  value:
+                    {
+                      "name": "Dia Mundial da Paz",
+                      "date": "2021-01-01",
+                      "type": "Feriado Nacional",
+                    }
+        "404":
+          description: |-
+            A data fornecida não é um feriado bancário
+          content:
+            application/json:
+              examples:
+                foo:
+                  value: { "message": "Data não encontrada" }
