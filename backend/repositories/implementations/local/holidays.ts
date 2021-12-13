@@ -62,12 +62,12 @@ const defaultHolidaysList = [
   {
     name: "Quarta-Feira de Cinzas",
     date: "2021-02-17",
-    type: "Feriado Nacional",
+    type: "Recomendação Febraban",
   },
   {
     name: "Último dia útil do ano (Não haverá expediente ao público)",
     date: "2021-12-31",
-    type: "Feriado Nacional",
+    type: "Recomendação Febraban",
   },
   {
     name: "Dia Mundial da Paz",
